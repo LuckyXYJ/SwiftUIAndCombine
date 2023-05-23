@@ -11,6 +11,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack(spacing: 12) {
+            Spacer()
             Text("0")
                 .font(.system(size: 76))
                 .minimumScaleFactor(0.5)
