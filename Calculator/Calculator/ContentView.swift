@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
+    let scale: CGFloat = UIScreen.main.bounds.width / 414
     
     var body: some View {
         VStack(spacing: 12) {
-            Spacer()
+//            Spacer()
             Text("0")
                 .font(.system(size: 76))
                 .minimumScaleFactor(0.5)
@@ -22,6 +23,8 @@ struct ContentView: View {
             CalculatorButtonPad()
                 .padding(.bottom)
         }
+        .frame(minHeight: 0, maxHeight: .infinity, alignment: .bottom)
+//        .scaleEffect(scale)
     }
 }
 
@@ -29,7 +32,7 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ContentView()
-            ContentView().previewDevice("iPhone 4S")
+            ContentView().previewDevice("iPhone SE")
         }
         
     }

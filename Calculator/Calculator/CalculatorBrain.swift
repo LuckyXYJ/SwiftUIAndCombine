@@ -25,7 +25,7 @@ extension CalculatorBrain {
     
     var output: String {
         
-        var formatter: NumberFormatter = {
+        let formatter: NumberFormatter = {
             let f = NumberFormatter()
             f.minimumFractionDigits = 0
             f.maximumFractionDigits = 8
@@ -50,5 +50,72 @@ extension CalculatorBrain {
         return formatter.string(from: value as NSNumber)!
     }
 
+    func apply(num: Int) -> CalculatorBrain {
+        switch self {
+        case .left(let str):
+            return .left("\(str)\(num)")
+        case .leftOp(let str, let op):
+            return .leftOpRight(left: str, op: op, right: "\(num)")
+        case .leftOpRight(let left, let op, let right):
+            return .leftOpRight(left: left, op: op, right: "\(right)\(num)")
+        case .error:
+            return .error
+        }
+    }
+    
+    func applyDot() -> CalculatorBrain {
+        switch self {
+        case .left(let str):
+            return .left("\(str).")
+        case .leftOp(let str, let op):
+            return .leftOpRight(left: str, op: op, right: "0.")
+        case .leftOpRight(let left, let op, let right):
+            return .leftOpRight(left: left, op: op, right: "\(right).")
+        case .error:
+            return .error
+        }
+    }
+    
+    func apply(op: CalculatorButtonItem.Op) -> CalculatorBrain {
+        switch self {
+        case .left(let str):
+            return .left("\(str)\(op)")
+        case .leftOp(let str, let op):
+            return .leftOpRight(left: str, op: op, right: "\(op)")
+        case .leftOpRight(let left, let op, let right):
+            return .leftOpRight(left: left, op: op, right: "\(right)\(op)")
+        case .error:
+            return .error
+        }
+    }
+    
+    func apply(command: CalculatorButtonItem.Command) -> CalculatorBrain {
+        switch self {
+        case .left(let str):
+            return .left("\(str)\(command)")
+        case .leftOp(let str, let op):
+            return .leftOpRight(left: str, op: op, right: "\(command)")
+        case .leftOpRight(let left, let op, let right):
+            return .leftOpRight(left: left, op: op, right: "\(right)\(command)")
+        case .error:
+            return .error
+        }
+    }
+    
+    func apply(item: CalculatorButtonItem) -> CalculatorBrain {
+        
+        switch item {
+        case .digit(let num):
+            return apply(num: num)
+        case .dot:
+            return applyDot()
+        case .op(let op):
+            return apply(op: op)
+        case .command(let command):
+            return apply(command: command)
+        }
+    }
+    
+   
     
 }
